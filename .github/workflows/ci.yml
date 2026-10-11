@@ -29,5 +29,8 @@ jobs:
 
       - uses: sbt/setup-sbt@v1
 
-      - name: Check formatting and run tests
-        run: sbt -batch scalafmtCheckAll test
+      - name: Format probe and run tests
+        run: |
+          sbt -batch scalafmtAll test
+          git diff -- src/main/scala src/test/scala
+          git diff --exit-code -- src/main/scala src/test/scala
