@@ -1,36 +1,31 @@
 # Scala Backend Playbook
 
-Tested, framework-conscious examples for Scala backend development.
-
-This repository is not a snippet dump and not a shared domain library. Each example documents:
-
-- the problem and invariant;
-- a small implementation with neutral package names;
-- boundary integration where it matters;
-- executable tests;
-- common failure modes;
-- guidance on when to adapt the pattern instead of copying the type.
-
-The examples may cover ZIO, Cats Effect, Circe, Doobie, and PostgreSQL. Framework-specific material lives in its own section; domain value objects remain independent where possible.
+A reference collection of working Scala examples supplied by the repository owner. Read an example, understand its decisions and limitations, then adapt it in the consuming project. This is not another backend, a shared domain dependency, or a library of prewritten answers for one application.
 
 ## Catalog
 
-- [Validated half-open date range](docs/playbooks/validated-date-range.md)
+| Need | Reference | Stack |
+| --- | --- | --- |
+| Validated temporal value, boundary codecs, interval operations | [TimeRange](examples/domain/time-range/README.md) | Scala 2.13, java.time, ZIO, Circe, ScalaTest |
 
-## Run
+## How to use
 
-```bash
-sbt test
-```
+Read the example README, implementation and tests together. Keep accepted requirements of the consuming project above example-specific choices. A reference demonstrates an approach; it does not make every original detail universally correct. Link from the project's relevant engineering document to a pinned commit here. Do not copy the reference into every instruction file.
 
-## Referencing from another project
+For example: when designing a validated temporal value, study TimeRange's construction boundary and decoder. Decide in the consuming project whether its values are calendar dates, zoned date-times or instants. Do not adapt the reference in advance to a hypothetical consumer.
 
-Project documentation should link to the relevant playbook and, for normative use, pin the link to a commit. The consuming project still owns its domain names, contracts, and placement.
+## Adding a reference
 
-Example wording:
+Preserve the supplied structure, types, operations and tests as far as publication permits. Remove private package names and unavailable private dependencies; document every substantive omission or change. Keep added characterization tests separate from the supplied tests. Do not silently repair a known limitation while claiming a faithful import.
 
-> Model the interval as a validated half-open range. Follow the DateRange pattern from `scala-backend-playbook`, adapted to this domain and pinned revision.
+Use [the reference template](docs/reference-template.md). Add only examples that exist, not empty directories for potential frameworks. ZIO and Cats Effect examples can coexist without converting one ecosystem to the other.
 
-## Provenance
+## Verification
 
-Examples are rewritten as neutral, standalone material. Do not copy private package names, company-specific utilities, internal contracts, or proprietary surrounding code into this repository.
+`sbt test` compiles the runnable TimeRange excerpt and runs the supplied tests plus separate characterization tests. No source formatter rewrites imported examples. CI runs for code/build changes, does not publish packages, and uploads no test artifacts.
+
+The previous LocalDate DateRange adaptation has been removed from the current tree because it was not a faithful reference import. History is preserved, not rewritten.
+
+## Publication boundary
+
+Never include private package names, company-specific surrounding code, credentials, internal URLs or private project discussions. A public repository is not permission to copy material whose publication has not been authorized. No license grant is inferred merely from repository visibility.

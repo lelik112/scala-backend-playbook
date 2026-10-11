@@ -1,9 +1,11 @@
-name: CI
+name: Reference tests
 
 on:
   push:
     branches: [main]
+    paths: ["examples/**", "build.sbt", "project/**", ".github/workflows/ci.yml"]
   pull_request:
+    paths: ["examples/**", "build.sbt", "project/**", ".github/workflows/ci.yml"]
   workflow_dispatch:
 
 permissions:
@@ -17,17 +19,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
           cache: sbt
-
       - uses: sbt/setup-sbt@v1
-
-      - name: Check formatting and run tests
-        run: sbt -batch scalafmtCheckAll test
+      - name: Compile reference and run original plus characterization tests
+        run: sbt -batch test
