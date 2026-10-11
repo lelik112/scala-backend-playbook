@@ -20,7 +20,7 @@ sealed abstract case class DateRange private (from: LocalDate, until: LocalDate)
     from.isBefore(other.until) && other.from.isBefore(until)
 
   def intersection(other: DateRange): Option[DateRange] = {
-    val intersectionFrom  = if (from.isAfter(other.from)) from else other.from
+    val intersectionFrom = if (from.isAfter(other.from)) from else other.from
     val intersectionUntil = if (until.isBefore(other.until)) until else other.until
 
     DateRange.makeOption(intersectionFrom, intersectionUntil)
@@ -28,7 +28,7 @@ sealed abstract case class DateRange private (from: LocalDate, until: LocalDate)
 }
 
 object DateRange {
-  private val JsonFrom  = "from"
+  private val JsonFrom = "from"
   private val JsonUntil = "until"
 
   sealed trait Error extends Product with Serializable {
@@ -53,14 +53,14 @@ object DateRange {
 
   implicit val encoder: Encoder[DateRange] = Encoder.instance { range =>
     Json.obj(
-      JsonFrom  -> Json.fromString(range.from.toString),
+      JsonFrom -> Json.fromString(range.from.toString),
       JsonUntil -> Json.fromString(range.until.toString)
     )
   }
 
   implicit val decoder: Decoder[DateRange] = Decoder.instance { cursor =>
     for {
-      from  <- date(cursor, JsonFrom)
+      from <- date(cursor, JsonFrom)
       until <- date(cursor, JsonUntil)
       range <- make(from, until).left.map(error => DecodingFailure(error.message, cursor.history))
     } yield range

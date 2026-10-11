@@ -32,7 +32,7 @@ final class DateRangeSuite extends munit.FunSuite {
   }
 
   test("adjacent ranges do not intersect") {
-    val left  = dateRange(Day1, Day2)
+    val left = dateRange(Day1, Day2)
     val right = dateRange(Day2, Day3)
 
     assert(left.adjacent(right))
@@ -41,7 +41,7 @@ final class DateRangeSuite extends munit.FunSuite {
   }
 
   test("intersection keeps only the shared dates") {
-    val left  = dateRange(Day1, Day3)
+    val left = dateRange(Day1, Day3)
     val right = dateRange(Day2, Day4)
 
     assertEquals(left.intersection(right), Some(dateRange(Day2, Day3)))
